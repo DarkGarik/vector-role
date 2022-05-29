@@ -1,0 +1,14 @@
+- name: install repo
+  yum_repository:
+    name: vector
+    description: vector repo
+    baseurl: https://repositories.timber.io/public/vector/rpm/any-distro/any-version/$basearch
+    gpgkey: https://repositories.timber.io/public/vector/gpg.3543DB2D0A2BC4B8.key
+- block:
+    - name: install vector {{ vector_version }}
+      ansible.builtin.yum:
+        name: vector-{{ vector_version }}
+  rescue:
+    - name: install vector latest
+      ansible.builtin.yum:
+        name: vector

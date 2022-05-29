@@ -1,0 +1,17 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: 'Gather Installed Packages'
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: 'Assert Clickhouse Packages'
+      ansible.builtin.assert:
+        that:
+          - "'{{ item }}' in ansible_facts.packages"
+      loop: 
+        - "vector"
